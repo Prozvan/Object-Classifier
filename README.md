@@ -1,7 +1,9 @@
 # Object Classifier (Graduation project)
 
 Created as a graduation final (scored 5/5), this project demonstrates the basics of machine learning: data collection, training, and prediction. Users take pictures of two different objects, which the model uses to learn and classify new images. The quality of predictions depends on the images provided. Three different algorithms are included for comparison and experimentation (LSVC, custom NN and KNNC).
- 
+
+![image](https://github.com/user-attachments/assets/6234c9b6-4ce0-4046-a15d-b4d63b24c092)
+
 Hot Keys:
 - F1 -> snap an image of the first object
 - F2 -> snap an image of the second object
