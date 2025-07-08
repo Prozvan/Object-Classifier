@@ -2,25 +2,28 @@ import cv2 as cv
 
 class Kamera:
     def __init__(self):
-        
-        self.CAMERA = cv.VideoCapture(0, cv.CAP_DSHOW)
+        self.CAMERA = None
+        external_found = False
 
-
-
-        if not self.CAMERA.isOpened(): 
-            # raise ValueError("Camera isn't on!")
-            self.CAMERA = cv.VideoCapture(0, cv.CAP_DSHOW)
-            if self.CAMERA.isOpened(): 
-                self.width = self.CAMERA.get(cv.CAP_PROP_FRAME_WIDTH)
-                self.height = self.CAMERA.get(cv.CAP_PROP_FRAME_HEIGHT)
-            else: 
-                raise ValueError("Camera isn't on!")
-
-
+        # Try external camera (commonly index 1)
+        external_cam = cv.VideoCapture(1, cv.CAP_DSHOW)
+        if external_cam.isOpened():
+            self.CAMERA = external_cam
+            external_found = True
         else:
-            self.width = self.CAMERA.get(cv.CAP_PROP_FRAME_WIDTH)
-            self.height = self.CAMERA.get(cv.CAP_PROP_FRAME_HEIGHT)
-            # print(self.width, self.height)
+            external_cam.release()
+
+        # Fall back to internal/default camera (index 0)
+        if not external_found:
+            self.CAMERA = cv.VideoCapture(0, cv.CAP_DSHOW)
+
+        # Final check
+        if not self.CAMERA.isOpened():
+            raise ValueError("No working camera found!")
+
+        # Store width and height
+        self.width = self.CAMERA.get(cv.CAP_PROP_FRAME_WIDTH)
+        self.height = self.CAMERA.get(cv.CAP_PROP_FRAME_HEIGHT)
 
           
     def __del__(self):
